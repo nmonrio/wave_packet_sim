@@ -1,7 +1,8 @@
+
+
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import animation
-import constants as cts
 
 class wave_packet(object):
     """
@@ -160,74 +161,131 @@ class wave_packet(object):
             psi_next_good.append(psi_next[k])
     
         return psi_next
+
+    def integral(self, psi_current):
+        """
+        Method that implements the error monitoring from step 7 of the algorythm.
+        """
+        squared_sum = 0
+        for i in range(0, self.M):
+            if i == 0 or i == self.M - 1:
+                squared_sum += 0.5*(abs(psi_current[i])**2)
+            else: 
+                squared_sum += abs(psi_current[i])**2
         
+        integral_k = squared_sum*self.dt
 
+        return integral_k
     
-
-
+    def compute_psi_squared(self, psi_current):
+        """
+        Method that computes the probabilities of each of psi.
+        """
+        psi_squared = []
+        for item in psi_current:
+            psi_squared.append(abs(item**2))
+        
+        return psi_squared
     
+    def compute_transmission_coeff(self, psi_current):
+        """
+        Method for computing the transmission coefficient of the wave packet.
+        """
+        trans_coeff = 0
+        for i in range(0, self.M):
+            if i == (self.M - 1) or i == 0:
+                trans_coeff += 0.5*(abs(psi_current[i])**2)
+            else:
+                trans_coeff += (abs(psi_current[i])**2)
+        
+        trans_coeff *= self.dx
+        return trans_coeff
 
+class results():
+    """
+    Object that implements the output methods for the wave packet.
+    """
+    def psi_squared_2_txt(psi_squared):
+        """
+        Outputs the values of the psi_squared array as a .txt file.
+        """
+        with open('psi_squared.txt', 'w') as file:
+            for item in psi_squared:
+                file.write(str(item) + "\n")
 
+        file.close()
 
+    def integral_2_txt(integral_values):
+        """
+        Outputs the values of the integral array as a .txt file.
+        """
+        with open('integral_results.txt', 'w') as file:
+            for item in integral_values:
+                file.write(str(item) + "\n")
 
+        file.close()
 
+    def trans_coeff_2_txt(trans_coef_values):
+        """
+        Outputs the values of the transmission coefficient array as a .txt file.
+        """
+        with open('trans_coeff.txt', 'w') as file:
+            for item in trans_coef_values:
+                file.write(str(item) + "\n")
 
+        file.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class Potential(object):
-#     """
-#     Class that implements any arbitrary potential
-#     """
+    def psi_squared_2_plot(list_psi_squared, x):
+        """
+        Method for plotting the probabilities.
+        """
+        pot_barrier = plt.Rectangle((0,0), 2, 0.36, fc='white',ec="black"))
+        plt.gca().add_patch(pot_barrier)
+        plt.plot(x, list_psi_squared[0],color='black',label = 't=0\u0394t')
+        plt.plot(x, list_psi_squared[1],color='red',label = 't=500\u0394t')
+        plt.plot(x, list_psi_squared[2],color='green',label='1000\u0394t')
+        plt.plot(x, list_psi_squared[3],color='blue',label = '1500\u0394t')
+        plt.plot(x, list_psi_squared[4],color='pink',label = '2000\u0394t')
+        plt.legend()
+        plt.ylabel('psi squared')
+        plt.xlabel('x')
+        plt.axis([-25,10,0,0.5])
+        plt.savefig("psi_squared_plot.png")
+        plt.show()
     
-#     def theta(x):
-#         """
-#         theta function :
-#         returns 0 if x<=0, and 1 if x>0
-#         """
-#         x = np.asarray(x)
-#         y = np.zeros(x.shape)
-#         y[x > 0] = 1.0
-#         return y
+    #def psi_squared_2_movie():
 
-#     def square_barrier(x, width, height):
-#         """
-#         Method that represents the square barrier.
-#         """
-#         return height * (theta(x) - theta(x - width))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
