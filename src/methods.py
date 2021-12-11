@@ -77,7 +77,7 @@ class wave_packet(object):
         
         return r_subdiag_entry
 
-    def compute_lmat_(self, lmat_diag, potential):
+    def compute_lmat(self, lmat_diag, potential):
         """
         Method for computing the main diagonal of the potential matrix L. 
         Similar to the method compute_rmat
