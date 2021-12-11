@@ -153,7 +153,7 @@ class wave_packet(object):
             if (i == self.M - 1):
                 psi_next.append(s_trid_prime[i])
             else: 
-                psi_next.append(s_trid_prime[k] - a_trid[k]*psi_next[self.M - i -2])
+                psi_next.append(s_trid_prime[i] - a_trid[i]*psi_next[self.M - i -2])
         
         # overwrite psi_next:
         psi_next_good = []
@@ -205,7 +205,7 @@ class results():
     """
     Object that implements the output methods for the wave packet.
     """
-    def psi_squared_2_txt(psi_squared):
+    def psi_squared_2_txt(self, psi_squared):
         """
         Outputs the values of the psi_squared array as a .txt file.
         """
@@ -215,7 +215,7 @@ class results():
 
         file.close()
 
-    def integral_2_txt(integral_values):
+    def integral_2_txt(self, integral_values):
         """
         Outputs the values of the integral array as a .txt file.
         """
@@ -225,7 +225,7 @@ class results():
 
         file.close()
 
-    def trans_coeff_2_txt(trans_coef_values):
+    def trans_coeff_2_txt(self,trans_coef_values):
         """
         Outputs the values of the transmission coefficient array as a .txt file.
         """
@@ -235,11 +235,11 @@ class results():
 
         file.close()
 
-    def psi_squared_2_plot(list_psi_squared, x):
+    def psi_squared_2_plot(self, list_psi_squared, x):
         """
         Method for plotting the probabilities.
         """
-        pot_barrier = plt.Rectangle((0,0), 2, 0.36, fc='white',ec="black"))
+        pot_barrier = plt.Rectangle((0,0), 2, 0.36, fc='white',ec="black")
         plt.gca().add_patch(pot_barrier)
         plt.plot(x, list_psi_squared[0],color='black',label = 't=0\u0394t')
         plt.plot(x, list_psi_squared[1],color='red',label = 't=500\u0394t')
