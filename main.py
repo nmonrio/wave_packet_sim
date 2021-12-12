@@ -66,7 +66,7 @@ if __name__ == "__main__":
         trans_coeff.append(wave.compute_transmission_coeff(psi_current))
         integral_data.append(wave.integral(psi_current))
 
-        if t == 500*dx*t or t == 1000*dx*t or t == 1500*dx*t or t == 2000*dx*t:
+        if t == 500*dt or t == 1000*dt or t == 1500*dt or t == 2000*dt:
             psi_squared = wave.compute_psi_squared(psi_current)
             psi_squared_data.append(psi_squared)
 
