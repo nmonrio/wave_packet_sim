@@ -3,6 +3,11 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import animation
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Helvetica"]})
+
 from numpy.lib.function_base import append
 
 class wave_packet(object):
@@ -280,7 +285,7 @@ class results():
         """
         Method for plotting the probabilities.
         """
-        pot_barrier = plt.Rectangle((0,0), 2, 0.36, fc='white',ec="black")
+        pot_barrier = plt.Rectangle((0,0), 2, 0.36, fc='grey',ec="black")
         plt.gca().add_patch(pot_barrier)
         plt.plot(x, list_psi_squared[0],color='black',label = 't=0\u0394t')
         plt.plot(x, list_psi_squared[1],color='red',label = 't=500\u0394t')

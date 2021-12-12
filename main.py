@@ -1,3 +1,4 @@
+from os import times
 import numpy as np
 from matplotlib import pyplot as plt, rc_context
 from matplotlib import animation
@@ -78,8 +79,21 @@ if __name__ == "__main__":
 
     # ANALYSIS OF RESULTS
 
-    #results.trans_coeff_2_txt(trans_coeff)
-    #results.integral_2_txt(integral_data)
+    # Storing as text files. (Uncomment to use)
+    # results.trans_coeff_2_txt(trans_coeff)
+    # results.integral_2_txt(integral_data)
+    # results.psi_squared_2_txt(psi_squared_data)
+
+    # Exercise 1
     results.psi_squared_2_plot(psi_squared_data, x_values)
+
+    # Exercise 2
+    results.plot_trans_coefficient(trans_coeff, t_values)
+
+    # Exercise 3
+    asymptote = wave.trans_coef_asymptote(trans_coeff)
+    print(f'Transmission coefficient\' asymptote: {asymptote}')
+
+    # Exercise 4
 
     
