@@ -3,11 +3,13 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import animation
+from numpy.lib.function_base import append
 
 class wave_packet(object):
     """
     Class which implements a numerical solution of the time-dependent
-    Schrodinger equation for an arbitrary potential
+    Schrodinger equation for an arbitrary potential. Serves as a blue print for
+    different inputs.
     """
     def __init__(self, t_f, dt, dx, x_min, x_max, k_0, sigma_0, x_0, L, V_0, M):
         """
@@ -131,7 +133,7 @@ class wave_packet(object):
 
     def overwrite_strid(self, s_trid, a_trid, lmat_diag, lmar_subdiag):
         """
-        Method that implements equation 21 from guide, overwriting S_TRID into a clean version.
+        Method that implements equation 21 from guide, overwriting S_TRID.
         """
         s_trid_prime = []
 
@@ -143,24 +145,28 @@ class wave_packet(object):
 
         return s_trid_prime
 
-    def compute_psi_next(self, s_trid_prime, a_trid):
+    def compute_pre_psi_next(self, s_trid_prime, a_trid):
         """
-        Method that computes PSI_NEXT array. Last part from step 5.
+        Method that computes the changed val PSI_NEXT array. Last part from step 5.
         """
         psi_next = []
 
         for i in range(self.M - 1, -1, -1):
-            if (i == self.M - 1):
+            if i == self.M - 1:
                 psi_next.append(s_trid_prime[i])
             else: 
                 psi_next.append(s_trid_prime[i] - a_trid[i]*psi_next[self.M - i -2])
         
-        # overwrite psi_next:
-        psi_next_good = []
-        for k in range(self.M - 1,-1,-1):
-            psi_next_good.append(psi_next[k])
-    
         return psi_next
+    
+    def overwrite_psi_next(self, psi_next):
+        """"
+        Rewrites the array PSI_NEXT for the correct expression
+        """
+        ov_psi_next = []
+        for k in range(self.M-1,-1,-1):
+            ov_psi_next.append(psi_next[k])
+        return ov_psi_next
 
     def integral(self, psi_current):
         """
@@ -168,7 +174,7 @@ class wave_packet(object):
         """
         squared_sum = 0
         for i in range(0, self.M):
-            if i == 0 or i == self.M - 1:
+            if i == 0 or i == (self.M - 1):
                 squared_sum += 0.5*(abs(psi_current[i])**2)
             else: 
                 squared_sum += abs(psi_current[i])**2
@@ -182,8 +188,8 @@ class wave_packet(object):
         Method that computes the probabilities of each of psi.
         """
         psi_squared = []
-        for item in psi_current:
-            psi_squared.append(abs(item**2))
+        for i in psi_current:
+            psi_squared.append(abs(i**2))
         
         return psi_squared
     
@@ -192,20 +198,55 @@ class wave_packet(object):
         Method for computing the transmission coefficient of the wave packet.
         """
         trans_coeff = 0
-        for i in range(0, self.M):
-            if i == (self.M - 1) or i == 0:
+        for i in range(1240, self.M):
+            if i == (self.M - 1):
                 trans_coeff += 0.5*(abs(psi_current[i])**2)
             else:
                 trans_coeff += (abs(psi_current[i])**2)
         
         trans_coeff *= self.dx
         return trans_coeff
+    
+    def trans_coef_asymptote(trans_coef_values):
+        """
+        Method for computing the asymptotic value of the TC.
+        It is based on the fact that tends to an horizontal asymptotic value.
+        """
+
+        asymptote = max(trans_coef_values)
+
+        return asymptote
+
+    # Meshing methods.
+
+    def x_values(self):
+        """
+        Creates spatial array
+        """
+        x_val = []
+        for j in range(1, self.M + 1):
+            x_j = self.x_min + (j - 1)*self.dx
+            x_val.append(x_j)
+        return x_val
+    
+    def t_values(self):
+        """
+        Creates temporal array
+        """
+        t_val = []
+        for t in np.arange(0, self.t_final, self.dt):
+            t_val.append(t)
+        return t_val
+
+
+
 
 class results():
     """
     Object that implements the output methods for the wave packet.
     """
-    def psi_squared_2_txt(self, psi_squared):
+    
+    def psi_squared_2_txt(psi_squared):
         """
         Outputs the values of the psi_squared array as a .txt file.
         """
@@ -215,7 +256,7 @@ class results():
 
         file.close()
 
-    def integral_2_txt(self, integral_values):
+    def integral_2_txt(integral_values):
         """
         Outputs the values of the integral array as a .txt file.
         """
@@ -225,7 +266,7 @@ class results():
 
         file.close()
 
-    def trans_coeff_2_txt(self,trans_coef_values):
+    def trans_coeff_2_txt(trans_coef_values):
         """
         Outputs the values of the transmission coefficient array as a .txt file.
         """
@@ -235,7 +276,7 @@ class results():
 
         file.close()
 
-    def psi_squared_2_plot(self, list_psi_squared, x):
+    def psi_squared_2_plot(list_psi_squared, x):
         """
         Method for plotting the probabilities.
         """
@@ -243,17 +284,35 @@ class results():
         plt.gca().add_patch(pot_barrier)
         plt.plot(x, list_psi_squared[0],color='black',label = 't=0\u0394t')
         plt.plot(x, list_psi_squared[1],color='red',label = 't=500\u0394t')
-        plt.plot(x, list_psi_squared[2],color='green',label='1000\u0394t')
-        plt.plot(x, list_psi_squared[3],color='blue',label = '1500\u0394t')
-        plt.plot(x, list_psi_squared[4],color='pink',label = '2000\u0394t')
-        plt.legend()
+        # plt.plot(x, list_psi_squared[2],color='green',label='1000\u0394t')
+        # plt.plot(x, list_psi_squared[3],color='blue',label = '1500\u0394t')
+        # plt.plot(x, list_psi_squared[4],color='pink',label = '2000\u0394t')
+        # plt.legend()
         plt.ylabel('psi squared')
         plt.xlabel('x')
         plt.axis([-25,10,0,0.5])
-        plt.savefig("psi_squared_plot.png")
+        #plt.savefig("psi_squared_plot.png")
         plt.show()
     
     #def psi_squared_2_movie():
+
+    def plot_trans_coefficient(trans_coeff_list,t_values):
+        plt.plot(t_values,trans_coeff_list,color='blue')
+        plt.axhline(y=0.00375, color='black', linestyle='--')
+        plt.ylabel('Transmission probability')
+        plt.xlabel('Time')
+        plt.axis([0,60,0,0.004])
+        plt.show()
+
+    def log_plot_trans_coeff(trans_coeff_list, t_values):
+        plt.plot(t_values,trans_coeff_list,color='blue',label= 'ko={}'.format(str(k_not)) )
+    #    plt.axhline(y=0.0038, color='black', linestyle='--')
+        plt.yscale('log')
+        plt.legend()
+        plt.ylabel('Transmission probability')
+        plt.xlabel('Time')
+        plt.axis([0,50,0.00001,1.5])
+        plt.show()
 
 
 
