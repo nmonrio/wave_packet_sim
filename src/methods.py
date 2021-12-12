@@ -1,14 +1,8 @@
 
-
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import animation
-plt.rcParams.update({
-    "text.usetex": True,
-    "font.family": "sans-serif",
-    "font.sans-serif": ["Helvetica"]})
-
-from numpy.lib.function_base import append
+from numpy.core.fromnumeric import size
 
 class wave_packet(object):
     """
@@ -31,8 +25,8 @@ class wave_packet(object):
         self.k_not = k_0
         self.sigma_not = sigma_0
         self.x_0 = x_0
-        self.L = L
-        self.V_0 = V_0
+        self.L = L                  # Potential width
+        self.V_0 = V_0              # Potential value
         self.M = M
 
         # Necessary variables for potential matrices. In Python the imaginary unit is
@@ -59,8 +53,8 @@ class wave_packet(object):
             
             x_j = self.x_min + (j - 1)*self.dx
             
-            if 0 <= x_j <= 2:
-                potential_barrier.append(2)
+            if 0 <= x_j <= self.L:
+                potential_barrier.append(self.V_0)  
             else:
                 potential_barrier.append(0)
         
@@ -281,23 +275,28 @@ class results():
 
         file.close()
 
-    def psi_squared_2_plot(list_psi_squared, x):
+    def psi_squared_2_plot(list_psi_squared, x, potential):
         """
         Method for plotting the probabilities.
         """
-        pot_barrier = plt.Rectangle((0,0), 2, 0.36, fc='grey',ec="black")
-        plt.gca().add_patch(pot_barrier)
-        plt.plot(x, list_psi_squared[0],color='black',label = 't=0\u0394t')
+        plt.plot(x, list_psi_squared[0],color='black',label = 'Initial packet.')
         plt.plot(x, list_psi_squared[1],color='red',label = 't=500\u0394t')
         plt.plot(x, list_psi_squared[2],color='green',label='1000\u0394t')
         plt.plot(x, list_psi_squared[3],color='blue',label = '1500\u0394t')
-        plt.plot(x, list_psi_squared[4],color='pink',label = '2000\u0394t')
+        plt.plot(x, list_psi_squared[4],color='orange',label = '2000\u0394t')
         plt.legend()
-        plt.ylabel('psi squared')
-        plt.xlabel('x')
+        plt.ylabel('$|\Psi(x)|^2$')
+        plt.xlabel('$x$')
         plt.axis([-25,10,0,0.5])
+        vx = plt.twinx()
+        vx.plot(x, potential, color='black')
+        vx.set_ylim(0, 3)
+        vx.set_ylabel('$V(x)$')
+
         #plt.savefig("psi_squared_plot.png")
         plt.show()
+
+        
     
     #def psi_squared_2_movie():
 
