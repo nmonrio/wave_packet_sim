@@ -206,7 +206,7 @@ class wave_packet(object):
         trans_coeff *= self.dx
         return trans_coeff
     
-    def trans_coef_asymptote(trans_coef_values):
+    def trans_coef_asymptote(self, trans_coef_values):
         """
         Method for computing the asymptotic value of the TC.
         It is based on the fact that tends to an horizontal asymptotic value.
@@ -296,15 +296,14 @@ class results():
         #plt.savefig("psi_squared_plot.png")
         plt.show()
 
-        
     
     #def psi_squared_2_movie():
 
-    def plot_trans_coefficient(trans_coeff_list,t_values):
+    def plot_trans_coefficient(trans_coeff_list,t_values, asymptote):
         plt.plot(t_values,trans_coeff_list,color='blue')
-        plt.axhline(y=0.00375, color='black', linestyle='--')
-        plt.ylabel('Transmission probability')
-        plt.xlabel('Time')
+        plt.axhline(y= asymptote, color='black', linestyle='--')
+        plt.ylabel('Transmission probability, $T(t)$ ')
+        plt.xlabel('Time, t ($s$)')
         plt.axis([0,60,0,0.004])
         plt.show()
 

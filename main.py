@@ -27,6 +27,7 @@ if __name__ == "__main__":
 
     x_values = wave.x_values()
     t_values = wave.t_values()
+    potential = wave.potential_barrier()
 
     psi_current = []                    
     psi_next = []   
@@ -35,18 +36,19 @@ if __name__ == "__main__":
     rmat_diag = []
     rmat_subdiag = []
 
-    # One potential used for calculations, another for plotting.
-    potential = wave.potential_barrier()  
-
+    
     for j in range(1, m+1):
         x_j = x_min + (j - 1)*dx
         entry = wave.psi_initial_state(x_j)
         psi_current.append(entry)
 
+
+    # Creation of L & R matrices, constant through time
     lmat_diag = wave.compute_lmat(lmat_diag, potential)
     lmat_subdiag = wave.compute_lmat_subdiag()
     rmat_diag =  wave.compute_rmat(rmat_diag, potential)
     rmat_subdiag = wave.compute_rmat_subdiag()
+    
     a_trid = wave.compute_atrid(lmat_diag, lmat_subdiag)
     psi_squared = []
 
@@ -61,7 +63,6 @@ if __name__ == "__main__":
     # Initialise transmission coefficient array for plotting
     trans_coeff = []
 
-
     # Initialise time loop
     for t in np.arange(0, t_final, dt):
         s_trid = wave.compute_strid(rmat_diag, rmat_subdiag, psi_current)
@@ -70,7 +71,7 @@ if __name__ == "__main__":
         ow_psi_next = wave.overwrite_psi_next(psi_next)
         psi_current = ow_psi_next
         trans_coeff.append(wave.compute_transmission_coeff(psi_current))
-        integral_data.append(wave.integral(psi_current))
+        # integral_data.append(wave.integral(psi_current))
 
         if t == 500*dt or t == 1000*dt or t == 1500*dt or t == 2000*dt:
             psi_squared = wave.compute_psi_squared(psi_current)
@@ -93,12 +94,10 @@ if __name__ == "__main__":
     results.psi_squared_2_plot(psi_squared_data, x_values, potential)
 
     # Exercise 2
-    # results.plot_trans_coefficient(trans_coeff, t_values)
-
+    asymptote = wave.trans_coef_asymptote(trans_coeff)
+    print(f'Transmission coefficient\'s asymptote: {asymptote}')
+    results.plot_trans_coefficient(trans_coeff, t_values, asymptote)
+    
     # Exercise 3
-    # asymptote = wave.trans_coef_asymptote(trans_coeff)
-    # print(f'Transmission coefficient\' asymptote: {asymptote}')
-
-    # Exercise 4
 
     
