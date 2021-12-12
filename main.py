@@ -7,6 +7,7 @@ from src.methods import results             # Related to the outputting of resul
 
 if __name__ == "__main__":
     
+    # ALGORYTHM IMPLEMENTATION
     # We define parametres from table and create a wave packet with such characteristics.
     dt = 0.005   
     t_final = 50
@@ -73,9 +74,12 @@ if __name__ == "__main__":
         psi_squared = []
         ow_psi_next = []
         psi_next = []
-        
+
+
     # ANALYSIS OF RESULTS
+
     #results.trans_coeff_2_txt(trans_coeff)
     #results.integral_2_txt(integral_data)
     results.psi_squared_2_plot(psi_squared_data, x_values)
+
     
