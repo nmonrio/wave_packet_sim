@@ -307,9 +307,8 @@ class results():
         plt.axis([0,60,0,0.004])
         plt.show()
 
-    def log_plot_trans_coeff(trans_coeff_list, t_values):
+    def log_plot_trans_coeff(trans_coeff_list, t_values, k_not):
         plt.plot(t_values,trans_coeff_list,color='blue',label= 'ko={}'.format(str(k_not)) )
-    #    plt.axhline(y=0.0038, color='black', linestyle='--')
         plt.yscale('log')
         plt.legend()
         plt.ylabel('Transmission probability')

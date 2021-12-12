@@ -85,7 +85,6 @@ if __name__ == "__main__":
     # ANALYSIS OF RESULTS
 
     # Storing as text files. (Uncomment to use)
-
     # results.trans_coeff_2_txt(trans_coeff)
     # results.integral_2_txt(integral_data)
     # results.psi_squared_2_txt(psi_squared_data)
