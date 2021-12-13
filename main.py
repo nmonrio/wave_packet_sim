@@ -5,14 +5,14 @@ from matplotlib import animation
 #     "text.usetex": True,
 #     "font.family": "sans-serif",
 #     "font.sans-serif": ["Helvetica"]})
-from src.methods import wave_packet         # Related to computations and algorythm
-from src.methods import results             # Related to the outputting of results
+from src.methods import wave_packet  # Related to computations and algorythm
+from src.methods import results  # Related to the outputting of results
 
 if __name__ == "__main__":
-    
+
     # ALGORYTHM IMPLEMENTATION
-    # We define parametres from table and create a wave packet with such characteristics.
-    dt = 0.005   
+    # We define parameters from table and create a wave packet with such characteristics.
+    dt = 0.005
     t_final = 50
     dx = 0.05
     x_min = -60
@@ -29,36 +29,32 @@ if __name__ == "__main__":
     t_values = wave.t_values()
     potential = wave.potential_barrier()
 
-    psi_current = []                    
-    psi_next = []   
+    psi_current = []
+    psi_next = []
     lmat_diag = []
     lmat_subdiag = []
     rmat_diag = []
     rmat_subdiag = []
 
-    
-    for j in range(1, m+1):
-        x_j = x_min + (j - 1)*dx
+    for j in range(1, m + 1):
+        x_j = x_min + (j - 1) * dx
         entry = wave.psi_initial_state(x_j)
         psi_current.append(entry)
-
 
     # Creation of L & R matrices, constant through time
     lmat_diag = wave.compute_lmat(lmat_diag, potential)
     lmat_subdiag = wave.compute_lmat_subdiag()
-    rmat_diag =  wave.compute_rmat(rmat_diag, potential)
+    rmat_diag = wave.compute_rmat(rmat_diag, potential)
     rmat_subdiag = wave.compute_rmat_subdiag()
-    
+
     a_trid = wave.compute_atrid(lmat_diag, lmat_subdiag)
     psi_squared = []
 
     # Integral data for plotting.
-    integral_data = []
-    integral_data.append(wave.integral(psi_current))
+    integral_data = [wave.integral(psi_current)]
 
     # Probability data for plotting
-    psi_squared_data = []
-    psi_squared_data.append(wave.compute_psi_squared(psi_current))
+    psi_squared_data = [wave.compute_psi_squared(psi_current)]
 
     # Initialise transmission coefficient array for plotting
     trans_coeff = []
@@ -73,14 +69,13 @@ if __name__ == "__main__":
         trans_coeff.append(wave.compute_transmission_coeff(psi_current))
         # integral_data.append(wave.integral(psi_current))
 
-        if t == 500*dt or t == 1000*dt or t == 1500*dt or t == 2000*dt:
+        if t == 500 * dt or t == 1000 * dt or t == 1500 * dt or t == 2000 * dt:
             psi_squared = wave.compute_psi_squared(psi_current)
             psi_squared_data.append(psi_squared)
 
         psi_squared = []
         ow_psi_next = []
         psi_next = []
-
 
     # ANALYSIS OF RESULTS
 
@@ -96,7 +91,5 @@ if __name__ == "__main__":
     asymptote = wave.trans_coef_asymptote(trans_coeff)
     print(f'Transmission coefficient\'s asymptote: {asymptote}')
     results.plot_trans_coefficient(trans_coeff, t_values, asymptote)
-    
-    # Exercise 3
 
-    
+    # Exercise 3
