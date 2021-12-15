@@ -8,6 +8,6 @@ setup(
          "": ["*"],
      },
     install_requires=[
-        "click", "lhsmdu", "matplotlib", "numpy", "pyproj", "imageio"
+        "click", "lhsmdu", "matplotlib", "numpy", "pyproj", "imageio", "tkinter"
     ],
 )
