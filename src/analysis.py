@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import pandas as pd
 from matplotlib import animation
 from numpy.core.fromnumeric import size
 
@@ -69,11 +70,23 @@ class results:
         plt.axis([0, 60, 0, 0.004])
         plt.show()
 
-    def log_plot_trans_coeff(trans_coeff_list, t_values, k_not):
-        plt.plot(t_values, trans_coeff_list, color='blue', label='ko={}'.format(str(k_not)))
+    def plot_tc_log_df(filename):
+        """
+        Method for plotting the TC for different k0 using csv and dataframes.
+        """
+
+        # Since we are working with a lot of data, it is more efficient to use data frames and pandas library
+        # instead of regular matplotlib.
+
+        headers = ['Time, t (s)', '$k_0$ = 0.5', '$k_0$ = 1', '$k_0$ = 1.5', '$k_0$ = 2.0', '$k_0$ = 2.5',
+                   '$k_0$ = 3.0',
+                   '$k_0$ = 3.5', '$k_0$ = 4.0', '$k_0$ = 4.5', '$k_0$ = 5.0', '$k_0$ = 5.5', '$k_0$ = 6.0',
+                   '$k_0$ = 6.5',
+                   '$k_0$ = 7.0', '$k_0$ = 7.5', '$k_0$ = 8.0']
+        df = pd.read_csv(filename, names=headers)
+        df.set_index('Time, t (s)').plot()
+        plt.ylabel('Transmission probability.')
         plt.yscale('log')
-        plt.legend()
-        plt.ylabel('Transmission probability')
-        plt.xlabel('Time')
-        plt.axis([0, 50, 0.00001, 1.5])
+        plt.ylim(10 ** (-5), 1)
+
         plt.show()

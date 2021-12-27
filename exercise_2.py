@@ -10,7 +10,7 @@ if __name__ == "__main__":
     dx = 0.05
     x_min = -60
     x_max = 60
-    k_not = 1
+    k_not = 8
     sigma_not = 3
     x_not = -10
     l = 2
@@ -73,11 +73,11 @@ if __name__ == "__main__":
     # ANALYSIS OF RESULTS --> Uncomment for results
 
     # Storing as text files.
-    # results.trans_coeff_2_txt(trans_coeff)
+    #results.trans_coeff_2_txt(trans_coeff)
     # results.integral_2_txt(integral_data)
     # results.psi_squared_2_txt(psi_squared_data)
 
     # Exercise 2
     asymptote = wave.trans_coef_asymptote(trans_coeff)
     print(f'Transmission coefficient\'s asymptote: {asymptote}')
-    results.plot_trans_coefficient(trans_coeff, t_values, asymptote)
+    #results.plot_trans_coefficient(trans_coeff, t_values, asymptote)
