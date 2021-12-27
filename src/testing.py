@@ -1,11 +1,12 @@
 import numpy as np
 import csv
 
-
+############################
 print(np.exp(2))
 print(np.exp([1, 2, 3]))
 print(np.pi)
 
+#############################
 
 def save_psi_squared_as_csv(list_psi_squared):
     with open('psi squared.csv', 'w', newline='') as file:
