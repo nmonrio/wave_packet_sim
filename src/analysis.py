@@ -44,14 +44,36 @@ class results:
         Method for plotting the probabilities.
         """
         plt.plot(x, list_psi_squared[0], color='black', label='Initial packet.')
-        plt.plot(x, list_psi_squared[1], color='red', label='t=500$\Delta$t')
-        plt.plot(x, list_psi_squared[2], color='green', label='1000$\Delta$t')
-        plt.plot(x, list_psi_squared[3], color='blue', label='1500$\Delta$t')
-        plt.plot(x, list_psi_squared[4], color='orange', label='2000$\Delta$t')
+        plt.plot(x, list_psi_squared[1], color='red', label='t = 500$\Delta$t')
+        plt.plot(x, list_psi_squared[2], color='green', label='t = 1000$\Delta$t')
+        plt.plot(x, list_psi_squared[3], color='blue', label='t = 1500$\Delta$t')
+        plt.plot(x, list_psi_squared[4], color='orange', label='t = 2000$\Delta$t')
         plt.legend()
         plt.ylabel('$|\Psi(x)|^2$')
         plt.xlabel('$x$')
         plt.axis([-25, 10, 0, 0.5])
+        vx = plt.twinx()
+        vx.plot(x, potential, color='black')
+        vx.set_ylim(0, 3)
+        vx.set_ylabel('$V(x)$')
+
+        # plt.savefig("psi_squared_plot.png")
+        plt.show()
+
+    def psi_squared_2_plot_ex3(list_psi_squared, x, potential):
+        """
+        Method for plotting the probabilities for exercise 3. Contains larger x and more timestamps
+        """
+        plt.plot(x, list_psi_squared[0], color='black', label='Initial packet.')
+        plt.plot(x, list_psi_squared[1], color='red', label='t = 500$\Delta$t')
+        plt.plot(x, list_psi_squared[2], color='green', label='t = 1500$\Delta$t')
+        plt.plot(x, list_psi_squared[3], color='blue', label='t = 3000$\Delta$t')
+        plt.plot(x, list_psi_squared[4], color='orange', label='t = 5000$\Delta$t')
+        plt.plot(x, list_psi_squared[5], color='purple', label='t = 9000$\Delta$t')
+        plt.legend()
+        plt.ylabel('$|\Psi(x)|^2$')
+        plt.xlabel('$x$')
+        plt.axis([-100, 100, 0, 0.5])
         vx = plt.twinx()
         vx.plot(x, potential, color='black')
         vx.set_ylim(0, 3)

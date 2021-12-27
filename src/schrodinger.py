@@ -216,6 +216,15 @@ class wave_packet(object):
 
         return asymptote
 
+    def compute_energy(self):
+        """
+        Method that computes the energy for the wave as a function of k_0 and sigma_0.
+        """
+        e_0 = (self.k_not**2 + (1/(2*self.sigma_not**2)))/2
+        return e_0
+
+    def compute_theoretical_transc(self):
+        
     # Meshing methods.
 
     def x_values(self):
