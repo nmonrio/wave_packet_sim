@@ -112,3 +112,17 @@ class results:
         plt.ylim(10 ** (-5), 1)
 
         plt.show()
+
+    def plot_trans_vs_energy(t_theoretical, e_theoretical,  t_experimental, e_experimental):
+        """
+        Method to plot the theoretical and wave packet transmission coefficients
+        as a function of energy.
+        """
+        plt.plot(e_theoretical, t_theoretical, color='blue', label='Planar wave.')
+        plt.plot(e_experimental, t_experimental, '-ok', color='red', label='Wave-packet')
+        plt.ylabel('Transmission coefficient')
+        plt.ylim(-0.001, 1.1)
+        plt.xlabel('Energy, $E_0$')
+        plt.xlim(-0.1, 33)
+        plt.legend()
+        plt.show()

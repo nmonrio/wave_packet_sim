@@ -33,6 +33,11 @@ class wave_packet(object):
         self.beta = 1 + 2 * 1j * self.alpha
         self.beta_conjugate = 1 - 2 * 1j * self.alpha
 
+
+        # Energy of the wave packet, computed for the last questions:
+        self.E_0 = (self.k_not**2 + (1/(2*self.sigma_not**2)))/2
+
+
     def psi_initial_state(self, x):
         """
         Method for computing the schrodinger equation for a given x.
@@ -216,15 +221,20 @@ class wave_packet(object):
 
         return asymptote
 
-    def compute_energy(self):
+    def compute_theoretical_transc(self, energy):
         """
-        Method that computes the energy for the wave as a function of k_0 and sigma_0.
+        Computes the theoretical transmission coefficient as a function of energy.
         """
-        e_0 = (self.k_not**2 + (1/(2*self.sigma_not**2)))/2
-        return e_0
+        tc = []
+        for value in energy:
+            if value < self.V_0:
+                t_val = 1/(1 + (self.V_0*np.sinh(self.L * (2*(self.V_0 - value))**(1/2))**2 )/(4*value*(self.V_0 - value))) 
+                tc.append(t_val)
+            else:
+                t_val = 1/(1 + (self.V_0*np.sin(self.L * (2*(value - self.V_0))**(1/2))**2 )/(4*value*(value - self.V_0))) 
+                tc.append(t_val)
+        return tc
 
-    def compute_theoretical_transc(self):
-        
     # Meshing methods.
 
     def x_values(self):
