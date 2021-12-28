@@ -4,14 +4,15 @@ from src.analysis import results            # Related to the outputting of resul
 
 if __name__ == "__main__":
 
-    # INPUTS as in Ex_1:
+    # ALGORYTHM IMPLEMENTATION
+    # We define parameters from table and create a wave packet with such characteristics.
     dt = 0.005
     t_final = 50
     dx = 0.05
     x_min = -60
     x_max = 60
-    k_not = 1
-    sigma_not = 3
+    k_not = 8.0
+    sigma_not = 7
     x_not = -10
     l = 2
     v_initial = 2
@@ -73,11 +74,10 @@ if __name__ == "__main__":
     # ANALYSIS OF RESULTS --> Uncomment for results
 
     # Storing as text files.
-    #results.trans_coeff_2_txt(trans_coeff)
+    # results.trans_coeff_2_txt(trans_coeff)
     # results.integral_2_txt(integral_data)
     # results.psi_squared_2_txt(psi_squared_data)
 
-    # Exercise 2
+    # Exercise 1
     asymptote = wave.trans_coef_asymptote(trans_coeff)
     print(f'Transmission coefficient\'s asymptote: {asymptote}')
-    #results.plot_trans_coefficient(trans_coeff, t_values, asymptote)
