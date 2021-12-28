@@ -13,6 +13,6 @@ pip install <package_name>
 As well ensure that the `python.exe` is in the Windows PATH (you can check this by running the command `python` on the cmd).
 
 ## Instructions of use
-GUI is in development process. However, to run the code run the `main.py` module.
+GUI is in development process. However, to run the code for each of the exercises run the the correspondent modules with each of the exercises.
 
 
