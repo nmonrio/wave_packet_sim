@@ -60,8 +60,6 @@ if __name__ == "__main__":
         psi_next = wave.compute_pre_psi_next(s_trid_prime, a_trid)
         ow_psi_next = wave.overwrite_psi_next(psi_next)
         psi_current = ow_psi_next
-        trans_coeff.append(wave.compute_transmission_coeff(psi_current))
-        # integral_data.append(wave.integral(psi_current))
 
         if t == 500 * dt or t == 1000 * dt or t == 1500 * dt or t == 2000 * dt:
             psi_squared = wave.compute_psi_squared(psi_current)

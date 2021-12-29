@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import pandas as pd
-from matplotlib import animation
+import matplotlib.animation as animation 
 from numpy.core.fromnumeric import size
 
 
@@ -56,8 +56,6 @@ class results:
         vx.plot(x, potential, color='black')
         vx.set_ylim(0, 3)
         vx.set_ylabel('$V(x)$')
-
-        # plt.savefig("psi_squared_plot.png")
         plt.show()
 
     def psi_squared_2_plot_ex3(list_psi_squared, x, potential):
@@ -81,8 +79,6 @@ class results:
 
         # plt.savefig("psi_squared_plot.png")
         plt.show()
-
-    # def psi_squared_2_movie():
 
     def plot_trans_coefficient(trans_coeff_list, t_values, asymptote):
         plt.plot(t_values, trans_coeff_list, color='blue')
